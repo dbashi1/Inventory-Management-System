@@ -1,0 +1,121 @@
+# Inventory Management System
+# Team Members: Griffin Bordac, David Bashi
+
+class Item:
+    """
+    Represents a single item in the inventory.
+    """
+
+    def __init__(self, name, quantity, category):
+        self.name = name
+        self.quantity = quantity
+        self.category = category
+
+
+class Inventory:
+    """
+    Manages all inventory items using a dictionary.
+    Key = item name
+    Value = Item object
+    """
+
+    def __init__(self):
+        self.items = {}
+
+    def add_item(self, name, quantity, category):
+        if name in self.items:
+            print("Item already exists. Use update instead.")
+        else:
+            self.items[name] = Item(name, quantity, category)
+            print(f"{name} added to inventory.")
+
+    def remove_item(self, name):
+        if name in self.items:
+            del self.items[name]
+            print(f"{name} removed from inventory.")
+        else:
+            print("Item not found.")
+
+    def update_quantity(self, name, quantity):
+        if name in self.items:
+            self.items[name].quantity = quantity
+            print(f"{name} quantity updated.")
+        else:
+            print("Item not found.")
+
+    def search_item(self, name):
+        if name in self.items:
+            item = self.items[name]
+            print(f"Name: {item.name}, Quantity: {item.quantity}, Category: {item.category}")
+        else:
+            print("Item not found.")
+
+    def display_inventory(self):
+        if not self.items:
+            print("Inventory is empty.")
+        else:
+            print("\n--- Inventory ---")
+            for item in self.items.values():
+                print(f"{item.name} | Qty: {item.quantity} | Category: {item.category}")
+
+    def low_stock(self, threshold=5):
+        print("\n--- Low Stock Items ---")
+        found = False
+        for item in self.items.values():
+            if item.quantity < threshold:
+                print(f"{item.name} (Qty: {item.quantity})")
+                found = True
+        if not found:
+            print("No low stock items.")
+
+
+def main():
+    inventory = Inventory()
+
+    while True:
+        print("\n===== INVENTORY MENU =====")
+        print("1. Add Item")
+        print("2. Remove Item")
+        print("3. Update Quantity")
+        print("4. Search Item")
+        print("5. Display Inventory")
+        print("6. Low Stock Report")
+        print("7. Exit")
+
+        choice = input("Enter choice: ")
+
+        if choice == "1":
+            name = input("Item name: ")
+            quantity = int(input("Quantity: "))
+            category = input("Category: ")
+            inventory.add_item(name, quantity, category)
+
+        elif choice == "2":
+            name = input("Item name to remove: ")
+            inventory.remove_item(name)
+
+        elif choice == "3":
+            name = input("Item name: ")
+            quantity = int(input("New quantity: "))
+            inventory.update_quantity(name, quantity)
+
+        elif choice == "4":
+            name = input("Item name to search: ")
+            inventory.search_item(name)
+
+        elif choice == "5":
+            inventory.display_inventory()
+
+        elif choice == "6":
+            inventory.low_stock()
+
+        elif choice == "7":
+            print("Exiting program...")
+            break
+
+        else:
+            print("Invalid choice. Try again.")
+
+
+if __name__ == "__main__":
+    main()
