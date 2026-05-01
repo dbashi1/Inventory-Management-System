@@ -1,12 +1,22 @@
 # Inventory Management System
 # Team Members: Griffin Bordac, David Bashi
 
+
 class Item:
     """
     Represents a single item in the inventory.
+    Stores name, quantity, and category.
     """
 
     def __init__(self, name, quantity, category):
+        """
+        Initializes a new item.
+
+        Args:
+            name (str): Name of the item
+            quantity (int): Number of items in stock
+            category (str): Category of the item
+        """
         self.name = name
         self.quantity = quantity
         self.category = category
@@ -20,9 +30,15 @@ class Inventory:
     """
 
     def __init__(self):
-        self.items = {}
+        """
+        Initializes empty inventory dictionary.
+        """
+        self.items = {}  # stores all items using name as key
 
     def add_item(self, name, quantity, category):
+        """
+        Adds a new item to inventory.
+        """
         if name in self.items:
             print("Item already exists. Use update instead.")
         else:
@@ -30,6 +46,9 @@ class Inventory:
             print(f"{name} added to inventory.")
 
     def remove_item(self, name):
+        """
+        Removes an item from inventory.
+        """
         if name in self.items:
             del self.items[name]
             print(f"{name} removed from inventory.")
@@ -37,6 +56,9 @@ class Inventory:
             print("Item not found.")
 
     def update_quantity(self, name, quantity):
+        """
+        Updates quantity of an existing item.
+        """
         if name in self.items:
             self.items[name].quantity = quantity
             print(f"{name} quantity updated.")
@@ -44,6 +66,9 @@ class Inventory:
             print("Item not found.")
 
     def search_item(self, name):
+        """
+        Searches for an item by name and displays it.
+        """
         if name in self.items:
             item = self.items[name]
             print(f"Name: {item.name}, Quantity: {item.quantity}, Category: {item.category}")
@@ -51,6 +76,9 @@ class Inventory:
             print("Item not found.")
 
     def display_inventory(self):
+        """
+        Displays all items in the inventory.
+        """
         if not self.items:
             print("Inventory is empty.")
         else:
@@ -59,20 +87,30 @@ class Inventory:
                 print(f"{item.name} | Qty: {item.quantity} | Category: {item.category}")
 
     def low_stock(self, threshold=5):
+        """
+        Displays items with low stock.
+        """
         print("\n--- Low Stock Items ---")
-        found = False
+
+        found = False  # tracks if any low-stock items exist
+
         for item in self.items.values():
             if item.quantity < threshold:
                 print(f"{item.name} (Qty: {item.quantity})")
                 found = True
+
         if not found:
             print("No low stock items.")
 
 
 def main():
+    """
+    Main program loop that runs the inventory menu system.
+    """
     inventory = Inventory()
 
     while True:
+        # Menu system shown to user
         print("\n===== INVENTORY MENU =====")
         print("1. Add Item")
         print("2. Remove Item")
@@ -84,6 +122,7 @@ def main():
 
         choice = input("Enter choice: ")
 
+        # Each option calls a function in the Inventory class
         if choice == "1":
             name = input("Item name: ")
             quantity = int(input("Quantity: "))
@@ -117,5 +156,6 @@ def main():
             print("Invalid choice. Try again.")
 
 
+# Runs the program
 if __name__ == "__main__":
     main()
